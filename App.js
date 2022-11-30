@@ -27,8 +27,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './src/components/home';
-import Collection from './src/components/collection';
+import Home from './components/home';
+import Collection from './components/collection';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
