@@ -6,7 +6,7 @@ export const saveConcept = (newConcept) => {
   const num = realm.objects('Concept').max("id") || 0;
   realm.write(() => {
     realm.create("Concept", {
-      id: num+3,
+      id: num + 3,
       name: newConcept.name,
       meaning: newConcept.meaning,
       phonetic: newConcept.phonetic,
