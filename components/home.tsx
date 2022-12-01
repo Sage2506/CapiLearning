@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { setConcepts } from '../actions/concept';
+import { fetchConcepts, saveConcept } from '../realm/concepts';
 
 
 const Home = (props) => {
   const {concepts, navigation} = props
 
-  function increaseConcepts (){
-    props.setConcepts(concepts + [1]);
+  function newConcept (){
+    saveConcept({
+      name:'kurogiri',
+      meaning:'chico de algo',
+      phonetic: 'kuogigi',
+    })
+    props.fetchConcepts();
   }
+
+  useEffect(() => {
+      props.fetchConcepts();
+  },[]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -26,8 +35,8 @@ const Home = (props) => {
         }
         />
       <Button
-      title='increase concepts'
-      onPress={() => increaseConcepts()}
+      title='crear concepto'
+      onPress={() => newConcept()}
       />
     </View>
   );
@@ -40,7 +49,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    setConcepts: data => { dispatch (setConcepts(data))}
+    fetchConcepts: () => { dispatch (fetchConcepts())}
     }
   }
 ;

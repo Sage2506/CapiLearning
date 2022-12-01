@@ -1,19 +1,20 @@
-// import realm from "./realm";
+import { setConcepts } from "../actions/concept";
+import realm from "./realm";
 
 
-// saveConcept(newConcept) {
-
-//   realm.write(() => {
-//     realm.create("Concept", {
-//       name: newConcept.name,
-//       meaning: newConcept.meaning,
-//       phonetic: newConcept.phonetic,
-//       image: newConcept.image,
-//       collection_id: newConcept.collection_id,
-//     }, UpdateMode.Modified);
-//   });
-//   Concepts.checkPermission();
-// }
+export const saveConcept = (newConcept) => {
+  const num = realm.objects('Concept').max("id") || 0;
+  realm.write(() => {
+    realm.create("Concept", {
+      id: num+3,
+      name: newConcept.name,
+      meaning: newConcept.meaning,
+      phonetic: newConcept.phonetic,
+      image: newConcept.image,
+      collection_id: newConcept.collection_id,
+    });
+  });
+}
 
 // updateConcept(recordID, editedConcept) {
 //   const concepts = realm.objects("Concept");
@@ -29,10 +30,10 @@
 //   })
 // }
 
-// fetchConcepts(){
-//   const concepts = realm.objects('Concept');
-//   return concepts;
-// }
+export const fetchConcepts = () => {
+  const concepts = realm.objects('Concept');
+  return setConcepts(concepts);
+}
 
 // deleteConcept(recordID){
 //   const concepts = realm.objects("Contact");
