@@ -16,6 +16,7 @@ import ConceptForm from './components/concepts/form';
 import ConceptsCollection from './components/concepts/list';
 import CollectionsList from './components/collections/list';
 import CollectionForm from './components/collections/form';
+import CollectionGame from './components/games/index';
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
@@ -55,6 +56,11 @@ const App: () => Node = () => {
           name="CollectionForm"
           component={ CollectionForm }
           options={{ title: 'Form' }}
+        />
+        <Stack.Screen
+          name="CollectionGame"
+          component={ CollectionGame }
+          options={{ title: 'Game' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -6,9 +6,7 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Button, Touc
 const ConceptsCollection = (props) => {
   useEffect(() => {
     if(props.route.params?.collectionId){
-      console.log("ruta filtrada por categoria", props.route.params.collectionId)
       props.fetchConcepts(`categoryId === ${props.route.params.collectionId}`)
-      console.log(props.concepts)
     }else{
       props.fetchConcepts();
     }

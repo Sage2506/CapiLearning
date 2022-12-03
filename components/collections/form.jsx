@@ -69,6 +69,12 @@ const CollectionForm = (props) => {
           onPress={() => remove()}
         />
       }
+      {editMode &&
+        <Button
+          title='Start Game'
+          onPress={() => props.navigation.navigate('CollectionGame', { collectionId: props.route.params.id })}
+        />
+      }
       <Button
         title='Guardar'
         onPress={() => newCollection()}
@@ -89,6 +95,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = store => ({
 
 });
+
 const mapDispatchToProps = dispatch => {
   return {
     fetchCollections: () => { dispatch(fetchCollections()) }
