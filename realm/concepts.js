@@ -1,46 +1,25 @@
 import { setConcepts } from "../actions/concept";
+import { fetchObjects, findRecordById, saveNew, updateObject, deleteItem } from "./default";
 import realm from "./realm";
 
+const CLASS_NAME = 'Concept';
 
 export const saveConcept = (newConcept) => {
-  const num = realm.objects('Concept').max("id") || 0;
-  realm.write(() => {
-    realm.create("Concept", {
-      id: num + 3,
-      name: newConcept.name,
-      meaning: newConcept.meaning,
-      phonetic: newConcept.phonetic,
-      image: newConcept.image,
-      collection_id: newConcept.collection_id,
-    });
-  });
+  saveNew(CLASS_NAME, newConcept)
 }
 
-// updateConcept(recordID, editedConcept) {
-//   const concepts = realm.objects("Concept");
-//   const matchedConcept = concepts.filtered(`recordID == '${recordID}'`)
-
-//   matchedConcept.forEach(concept => {
-//     realm.write(() => {
-//       concept.name : editedConcept.name
-//       concept.meaning = editedConcept.meaning
-//       concept.phonetic = editedConcept.phonetic
-//       concept.image = editedConcept.image
-//     });
-//   })
-// }
-
-export const fetchConcepts = () => {
-  const concepts = realm.objects('Concept');
-  return setConcepts(concepts);
+export const updateConcept = (id, newConcept) => {
+  updateObject(CLASS_NAME, id, newConcept);
 }
 
-// deleteConcept(recordID){
-//   const concepts = realm.objects("Contact");
-//   const conceptsWithoutThumbnail = concepts.filtered(`recordID == '${recordID}'`)
-//   conceptsWithoutThumbnail.forEach(contact => {
-//     realm.write(() => {
-//       realm.delete(contact);
-//     });
-//   })
-// }
+export const findConceptById = (id) => {
+  return findRecordById(CLASS_NAME, id);
+}
+
+export const fetchConcepts = (filter) => {
+  return fetchObjects(CLASS_NAME, setConcepts, filter)
+}
+
+deleteConcept = (id) => {
+  deleteItem(CLASS_NAME, id)
+}

@@ -1,42 +1,32 @@
 import React, { useEffect } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, StatusBar, View } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchConcepts, saveConcept } from '../realm/concepts';
+import { fetchConcepts } from '../realm/concepts';
+import { fetchCollections } from '../realm/collections';
 
 
 const Home = (props) => {
-  const { concepts, navigation } = props
-
-  function newConcept() {
-    saveConcept({
-      name: 'kurogiri',
-      meaning: 'chico de algo',
-      phonetic: 'kuogigi',
-    })
-    props.fetchConcepts();
-  }
+  const { navigation } = props
 
   useEffect(() => {
     props.fetchConcepts();
+    props.fetchCollections();
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>
-        New function component! Home 🎉
-      </Text>
-      <Text>
-        Concepts length {concepts.length}
-      </Text>
+    <View style={{ flex: 1, marginTop: StatusBar.currentHeight || 0}}>
+
       <Button
-        title='Go to collection component'
+        title='Concepts'
         onPress={() =>
-          navigation.navigate('Collection', { name: 'Jane' })
+          navigation.navigate('Concepts')
         }
       />
       <Button
-        title='crear concepto'
-        onPress={() => newConcept()}
+        title='Collections'
+        onPress={() =>
+          navigation.navigate('Collections')
+        }
       />
     </View>
   );
@@ -49,10 +39,10 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchConcepts: () => { dispatch(fetchConcepts()) }
+    fetchConcepts: () => { dispatch(fetchConcepts()) },
+    fetchCollections: () => { dispatch(fetchCollections()) },
   }
-}
-  ;
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

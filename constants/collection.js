@@ -1,0 +1,2 @@
+export const SET_COLLECTIONS = 'SET_COLLECTIONS';
+export const SET_COLLECTION = 'SET_COLLECTION';

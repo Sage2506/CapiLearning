@@ -9,7 +9,7 @@ Concept.schema = {
     meaning: "string",
     phonetic: "string?",
     image: "string?",
-    collection_id: "string?"
+    collectionId: "int?"
   },
   primaryKey: "id",
 };
@@ -18,10 +18,9 @@ Collection.schema = {
   name: "Collection",
   properties: {
     id: "int",
-    uid: "string?",
     name: "string",
-    best_percent: "int?",
-    best_quantity: "int?",
+    bestPercent: "int?",
+    bestQuantity: "int?",
     image: "string?",
   },
   primaryKey: "id",
