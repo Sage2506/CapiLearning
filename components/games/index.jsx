@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, StatusBar, Pressable, SafeAreaView, Alert } from 'react-native';
 import { fetchConcepts } from '../../realm/concepts';
+import { black, primary, secondary, warning, white } from '../../styles/colors';
+import { title } from '../../styles/texts';
+import { findCollectionById, updateCollection } from '../../realm/collections';
+import { setCollection } from '../../actions/collection'
 
 const CollectionGame = (props) => {
   const [concepts, onChangeConcepts] = React.useState([]);
@@ -29,8 +33,9 @@ const CollectionGame = (props) => {
   }
 
   function scrambleOptions() {
-    if (concepts.length > 2) {
-      let tempOptions = [concepts[level]]
+    if (concepts.length > 2 && level === 0) {
+      let tempOptions = []
+      tempOptions.push(concepts[level])
       while (tempOptions.length < 3) {
         let random = getRandomInt(concepts.length)
         let sample = concepts[getRandomInt(concepts.length)]
@@ -43,13 +48,20 @@ const CollectionGame = (props) => {
   }
 
   function selectOption(option) {
-    let answer = false
+    let currentConcept = concepts[level]
+    let newResults = results
     if (option.id === concepts[level].id) {
-      answer = true;
+      isCorrect = true;
+      currentConcept['isCorrect'] = true
+    } else {
+      currentConcept['isCorrect'] = false
+      currentConcept['myAnswer'] = option.meaning;
     }
-    onChangeResults(results + [{ ...option, answer }])
+
+    newResults.push(currentConcept)
+    onChangeResults(newResults)
     onChangeLevel(level + 1);
-    if (level > concepts.length - 1) {
+    if (level >= concepts.length - 1) {
       finishGame();
     } else {
       scrambleOptions();
@@ -64,12 +76,50 @@ const CollectionGame = (props) => {
         { text: "OK" }
       ]
     );
+    const bestQuantity = results.map( result => result.isCorrect).length
+    const bestPercent = (bestQuantity / results.length ) *100
+    if(bestQuantity > props.collection.bestQuantity){
+      updateCollection(props.route.params.collectionId, {bestQuantity,bestPercent})
+    } else if(bestQuantity === props.collection.bestQuantity ) {
+      if(bestPercent > props.collection.bestPercent){
+        updateCollection(props.route.params.collectionId, {bestQuantity,bestPercent})
+      }
+    }
   }
 
   if (concepts.length < 3) {
-    return <Text>Not enought concepts to start game</Text>
+    return (<Text>Not enought concepts to start game</Text>);
   } else if (level >= concepts.length) {
-    return <Text>Game finished</Text>
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.title}>Game finished</Text>
+        </View>
+        {results.map(result => (
+          <View key={result.id} style={{ ...styles.item, backgroundColor: result.isCorrect ? primary : warning }} >
+            <Text style={styles.title}>
+              {result.name}
+            </Text>
+            {!result.isCorrect && <Text style={styles.subtitle}>
+              Your answer: {result.myAnswer}
+            </Text>}
+            <Text style={styles.subtitle}>
+              {result.meaning}
+            </Text>
+          </View>
+        ))}
+        <View>
+          <Text style={styles.title}>
+            Score
+          </Text>
+          <Text style={styles.text}>
+            {results.filter(result => result.isCorrect).length} out of {results.length}
+          </Text>
+          <Text style={styles.text}>
+            {Math.round(results.filter(result => result.isCorrect).length  / results.length * 100)}%
+          </Text>
+        </View>
+      </SafeAreaView>)
   } else {
     return (
       <SafeAreaView style={styles.container}>
@@ -84,7 +134,7 @@ const CollectionGame = (props) => {
             key={option.id}
             onPress={() => selectOption(option)}
           >
-            <Text style={styles.text}>
+            <Text style={styles.option}>
               {option.meaning}
             </Text>
           </Pressable>
@@ -93,27 +143,28 @@ const CollectionGame = (props) => {
     );
   }
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
     padding: 8,
   },
-  card:{
+  card: {
     marginVertical: 4,
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: primary,
     padding: 20,
     marginVertical: 8,
   },
   title: {
     fontSize: 32,
+    color: black
   },
   subtitle: {
     fontSize: 16,
+    color: black
   },
   button: {
     alignItems: 'center',
@@ -123,23 +174,31 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: secondary,
   },
   text: {
     fontSize: 16,
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'white',
+    color: black
+  },
+  option: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: white
   },
 });
-
 const mapStateToProps = store => ({
-  concepts: store.concept.concepts
+  concepts: store.concept.concepts,
+  collection: store.collection.collection,
 });
 const mapDispatchToProps = dispatch => {
   return {
-    fetchConcepts: () => { dispatch(fetchConcepts()) }
+    fetchConcepts: () => { dispatch(fetchConcepts()) },
+    setCollection: (id) => { dispatch(setCollection(findCollectionById(id)))}
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionGame);

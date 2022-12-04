@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import { SafeAreaView, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { fetchCollections, findCollectionById, saveCollection, updateCollection } from '../../realm/collections';
+import { black, disabled } from '../../styles/colors';
 
 const CollectionForm = (props) => {
   const [name, onChangeName] = React.useState("");
@@ -55,6 +56,7 @@ const CollectionForm = (props) => {
         onChangeText={onChangeName}
         value={name}
         placeholder='Name'
+        placeholderTextColor={disabled}
       />
 
       {editMode &&
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    color: black,
   },
 });
 

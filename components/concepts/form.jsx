@@ -4,6 +4,7 @@ import { Text, View, Alert } from 'react-native';
 import { SafeAreaView, StyleSheet, TextInput, Button } from "react-native";
 import { fetchConcepts, findConceptById, saveConcept, updateConcept } from '../../realm/concepts';
 import { Picker } from '@react-native-picker/picker';
+import { black, disabled } from '../../styles/colors';
 
 const ConceptForm = (props) => {
   const [name, onChangeName] = React.useState("");
@@ -62,18 +63,21 @@ const ConceptForm = (props) => {
         onChangeText={onChangeName}
         value={name}
         placeholder='Name'
+        placeholderTextColor={disabled}
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangeMeaning}
         value={meaning}
         placeholder='Meaning'
+        placeholderTextColor={disabled}
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangePhonetic}
         value={phonetic}
         placeholder='Phonetic'
+        placeholderTextColor={disabled}
       />
       <Picker
         selectedValue={collectionId}
@@ -103,6 +107,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    color: black,
   },
 });
 

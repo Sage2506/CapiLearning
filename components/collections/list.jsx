@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchCollections } from '../../realm/collections';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Button, TouchableWithoutFeedback } from 'react-native';
+import { black } from '../../styles/colors';
 
 const CollectionsList = (props) => {
   useEffect(() => {
@@ -49,9 +50,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    color: black,
   },
   subtitle: {
     fontSize: 16,
+    color: black,
   }
 });
 
