@@ -15,7 +15,7 @@ const ConceptsCollection = (props) => {
 
   const renderItem = ({ item: { name, meaning, id } }) => {
     return (
-      <TouchableWithoutFeedback onPress={() => props.navigation.navigate('ConceptForm', { id })}>
+      <TouchableWithoutFeedback onPress={() => props.route.params?.collectionId ? null : props.navigation.navigate('ConceptForm', { id })}>
         <View style={styles.item}>
           <Text style={styles.title}>{name}</Text>
           <Text style={styles.subtitle}>{meaning}</Text>
@@ -34,6 +34,9 @@ const ConceptsCollection = (props) => {
       <Button
         title='Crear concepto'
         onPress={() =>
+          props.route.params?.collectionId ?
+          props.navigation.navigate('ConceptForm', {collectionId: props.route.params.collectionId })
+          :
           props.navigation.navigate('ConceptForm')
         }
       />

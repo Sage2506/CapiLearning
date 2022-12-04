@@ -24,6 +24,9 @@ const ConceptForm = (props) => {
         onChangeCollection(concept.collectionId)
       }
     }
+    if(props.route.params?.collectionId){
+      onChangeCollection(props.route.params.collectionId)
+    }
     }, []);
 
   function applyChanges() {
@@ -80,6 +83,7 @@ const ConceptForm = (props) => {
         placeholderTextColor={disabled}
       />
       <Picker
+        enabled={props.route.params?.collectionId ? false : true}
         selectedValue={collectionId}
         onValueChange={(itemValue, itemIndex) =>
           onChangeCollection(itemValue)
