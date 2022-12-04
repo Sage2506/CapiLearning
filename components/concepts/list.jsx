@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchConcepts } from '../../realm/concepts';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Button, TouchableWithoutFeedback } from 'react-native';
-import { black } from '../../styles/colors';
+import { black, primary } from '../../styles/colors';
 
 const ConceptsCollection = (props) => {
   useEffect(() => {
-    if(props.route.params?.collectionId){
-      props.fetchConcepts(`categoryId === ${props.route.params.collectionId}`)
-    }else{
+    if (props.route.params?.collectionId) {
+      props.fetchConcepts(`collectionId == ${props.route.params.collectionId}`)
+    } else {
       props.fetchConcepts();
     }
   }, []);
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: primary ,
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -67,7 +67,7 @@ const mapStateToProps = store => ({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    fetchConcepts: () => { dispatch(fetchConcepts()) }
+    fetchConcepts: (filter) => { dispatch(fetchConcepts(filter)) }
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ConceptsCollection);

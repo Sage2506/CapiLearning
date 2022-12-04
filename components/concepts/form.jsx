@@ -83,10 +83,11 @@ const ConceptForm = (props) => {
         selectedValue={collectionId}
         onValueChange={(itemValue, itemIndex) =>
           onChangeCollection(itemValue)
-        }>
+        }
+        >
           <Picker.Item label="Select a collection" />
         {props.collections.map((item, index) => (
-          <Picker.Item key={item.id} label={item.name} value={item.id} />
+          <Picker.Item key={item.id} label={item.name} value={item.id} style={styles.pickerItem}/>
         ))}
       </Picker>
       {editMode && <Button
@@ -109,6 +110,9 @@ const styles = StyleSheet.create({
     padding: 10,
     color: black,
   },
+  pickerItem: {
+    color: black
+  }
 });
 
 const mapStateToProps = store => ({
