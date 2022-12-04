@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchCollections } from '../../realm/collections';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, Button, TouchableWithoutFeedback } from 'react-native';
-import { black } from '../../styles/colors';
+import { black, primary } from '../../styles/colors';
 
 const CollectionsList = (props) => {
   useEffect(() => {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: primary,
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
